@@ -1,82 +1,95 @@
-# MalScan++
+<div align="center">
+  <h1>🛡️ MalScan++</h1>
+  <p><b>A High-Performance, Dual-Execution Static Malware Analysis Engine</b></p>
+  
+  [![C++20](https://img.shields.io/badge/C++-20-blue.svg?style=flat-square&logo=c%2B%2B)](https://en.cppreference.com/w/cpp/compiler_support)
+  [![CMake](https://img.shields.io/badge/CMake-3.20+-success.svg?style=flat-square&logo=cmake)](https://cmake.org/)
+  [![License](https://img.shields.io/badge/License-MIT-purple.svg?style=flat-square)](LICENSE)
+</div>
 
-> A high-performance, static malware detection engine built in C++20.
+---
 
-MalScan++ is a powerful command-line utility designed to analyze files and directories for malicious indicators using purely static heuristics. It safely evaluates file metadata, calculates Shannon entropy to detect packed payloads, and identifies obfuscation techniques without ever executing the target files.
+**MalScan++** is a powerful command-line utility and web-dashboard designed to analyze files and directories for malicious indicators using purely static heuristics. It safely evaluates file metadata, calculates Shannon entropy to detect packed payloads, and identifies obfuscation techniques without ever executing the target files.
 
-## 🌟 Features
+## 🌟 Key Features
 
-* **Recursive Directory Scanning**: High-speed filesystem traversal with robust exception handling for protected OS directories.
-* **Shannon Entropy Analysis**: Accurately detects packed or encrypted payloads by mathematically evaluating byte randomness and distribution.
-* **Heuristic Risk Engine**: Pluggable Strategy Pattern architecture evaluating files against multiple threat vectors:
+* **Dual Execution Modes**: Run headless scans via the Terminal, or launch the built-in HTTP server to access the premium Web Dashboard.
+* **Shannon Entropy Analysis**: Accurately detects packed, compressed, or encrypted payloads by mathematically evaluating byte randomness (`H = -Σ p(x) log2(p(x))`) in constant $O(1)$ memory.
+* **Heuristic Risk Engine**: Pluggable architecture evaluating files against multiple threat vectors:
   * Suspicious extensions (`.scr`, `.vbs`, `.ps1`)
   * Double-extension spoofing (`invoice.pdf.exe`)
   * Obfuscated hidden directories/files
   * Threat-actor keywords (`keygen`, `payload`, `injector`)
-  * Evasion-padded large executables
+  * Evasion-padded large executables (>50MB)
 * **Categorical Risk Scoring**: Automatically classifies files as `SAFE`, `SUSPICIOUS`, or `HIGH_RISK`.
-* **Standardized Reporting**: Exports analysis results to JSON and CSV formats for SIEM integration.
-* **ANSI Colored CLI**: Beautiful, readable terminal output.
-
-## 📸 Screenshots
-
-*(Replace these placeholders with actual screenshots once the project is built)*
-
-1. **Terminal Output**
-   `[Screenshot of the ANSI colored terminal scanning a directory, highlighting a HIGH_RISK file in red.]`
-2. **JSON Export**
-   `[Screenshot of the generated JSON report showing the calculated entropy and score.]`
+* **Standardized Reporting**: Exports analysis results to JSON and CSV formats for external SIEM integration.
 
 ## 🏗️ Architecture
 
-MalScan++ employs a highly modular architecture emphasizing the **Strategy Pattern** and **Dependency Injection**. The core `RiskEngine` dynamically loads `IAnalyzer` instances, allowing developers to seamlessly add new detection algorithms without modifying existing engine logic.
+MalScan++ is built with strict adherence to modern software engineering principles:
+* **Strategy Pattern**: The heuristic analysis pipeline uses pluggable components allowing easy integration of future detection algorithms.
+* **Memory Efficiency**: Binary file streams are processed in 8KB chunks, ensuring that scanning massive gigabyte-sized files requires zero RAM overhead.
+* **Native REST API**: Integrates `cpp-httplib` for native thread-safe HTTP routing without relying on bulky external frameworks.
 
-Please refer to the `docs/` folder or the `MalScan_Blueprint.md` for complete class diagrams and data flow diagrams.
+---
 
-## 🚀 Installation & Build Guide
+## 🚀 Installation & Build
+
+This project relies on `vcpkg` for dependency management (`nlohmann-json`, `cxxopts`, `cpp-httplib`, `gtest`).
 
 ### Prerequisites
-* C++20 compatible compiler (MSVC, GCC 11+, Clang 14+)
-* [CMake](https://cmake.org/) (v3.20+)
-* [vcpkg](https://vcpkg.io/) (C++ Package Manager)
+* Visual Studio 2022 (with Desktop Development C++ Workload)
+* CMake (3.20+)
+* [vcpkg](https://vcpkg.io/en/getting-started.html) installed and bootstrapped.
 
 ### Build Instructions
 
-1. **Clone the repository**
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/MalScan-Plus-Plus.git
-   cd MalScan-Plus-Plus
+   git clone https://github.com/YourUsername/MalScanPlusPlus.git
+   cd MalScanPlusPlus
    ```
 
-2. **Configure with CMake & vcpkg**
+2. **Configure CMake (Replace the vcpkg toolchain path):**
    ```bash
-   cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path/to/vcpkg]/scripts/buildsystems/vcpkg.cmake
+   cmake -B build -S . -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="C:\path\to\vcpkg\scripts\buildsystems\vcpkg.cmake"
    ```
 
-3. **Build the project**
+3. **Compile in Release Mode:**
    ```bash
    cmake --build build --config Release
    ```
 
+---
+
 ## 💻 Usage
 
-Run the scanner by providing a target directory or file:
-
+### 1. Terminal Mode (CLI)
+Run the executable directly against any file or folder. Use the `-v` flag to see exact heuristic points awarded per file.
 ```bash
-# Scan a specific directory
-./scanner "C:\Users\Target\Downloads"
-
-# Scan with JSON output
-./scanner "/home/user/downloads" --report json
+.\build\Release\scanner.exe "C:\Path\To\Scan" -v --json --csv
 ```
 
-## 🔮 Future Enhancements
+### 2. Web Dashboard Mode
+MalScan++ comes with a built-in HTTP server that serves a modern graphical dashboard.
+```bash
+.\build\Release\scanner.exe --server 8080
+```
+*Open `http://localhost:8080` in your web browser to access the scanning UI.*
 
-* **YARA Rule Integration**: Support for industry-standard pattern matching.
-* **PE/ELF Header Analysis**: Deep inspection of Import Address Tables and section permissions.
-* **SHA256 IOC Matching**: Integration with SQLite to cross-reference known malicious hashes.
-* **Machine Learning Classification**: Replacing the static scoring engine with a trained Random Forest classifier.
+---
 
-## 📄 License
+## 📸 Screenshots
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+*(Add screenshots of your project here to make the repository pop!)*
+
+* **CLI Output:** `![Terminal Placeholder]()`
+* **Web Dashboard:** `![Dashboard Placeholder]()`
+
+---
+
+## ⚠️ Disclaimer
+MalScan++ is designed exclusively for **static** heuristic analysis. It is an educational cybersecurity tool and is not a replacement for dynamic sandboxing, EDRs, or traditional signature-based Antivirus engines. It does not execute or sandbox malware. 
+
+## 📝 License
+Distributed under the MIT License.
