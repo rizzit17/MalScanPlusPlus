@@ -79,15 +79,6 @@ MalScan++ comes with a built-in HTTP server that serves a modern graphical dashb
 
 ---
 
-## 📸 Screenshots
-
-*(Add screenshots of your project here to make the repository pop!)*
-
-* **CLI Output:** `![Terminal Placeholder]()`
-* **Web Dashboard:** `![Dashboard Placeholder]()`
-
----
-
 ## ⚠️ Disclaimer
 MalScan++ is designed exclusively for **static** heuristic analysis. It is an educational cybersecurity tool and is not a replacement for dynamic sandboxing, EDRs, or traditional signature-based Antivirus engines. It does not execute or sandbox malware. 
 
