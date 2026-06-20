@@ -1,0 +1,10 @@
+{
+  "name": "malscan-plus-plus",
+  "version": "1.0.0",
+  "dependencies": [
+    "nlohmann-json",
+    "gtest",
+    "cxxopts",
+    "cpp-httplib"
+  ]
+}

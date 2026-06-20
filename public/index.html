@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MalScan++ Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <h1>MalScan<span>++</span></h1>
+                <p>Static Heuristic Malware Analysis</p>
+            </div>
+            <div class="header-status">
+                <span class="status-dot"></span> Engine Online
+            </div>
+        </header>
+
+        <main>
+            <!-- Control Panel -->
+            <section class="control-panel glass-panel">
+                <h2>New Scan</h2>
+                <div class="input-group">
+                    <label for="pathInput">Target Directory Path</label>
+                    <input type="text" id="pathInput" placeholder="C:\Users\Target\Downloads" value="C:\Users\Rishit\Desktop\RESUMES">
+                </div>
+                <button id="scanBtn" class="primary-btn">Initialize Scan</button>
+                
+                <div class="progress-container hidden" id="progressContainer">
+                    <div class="loader"></div>
+                    <p>Analyzing Metadata...</p>
+                </div>
+            </section>
+
+            <!-- Dashboard / Results -->
+            <section class="dashboard-area hidden" id="dashboardArea">
+                <!-- Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card glass-panel safe-border">
+                        <h3>Safe</h3>
+                        <p class="metric-value safe-text" id="mSafe">0</p>
+                    </div>
+                    <div class="metric-card glass-panel susp-border">
+                        <h3>Suspicious</h3>
+                        <p class="metric-value susp-text" id="mSusp">0</p>
+                    </div>
+                    <div class="metric-card glass-panel risk-border">
+                        <h3>High Risk</h3>
+                        <p class="metric-value risk-text" id="mRisk">0</p>
+                    </div>
+                    <div class="metric-card glass-panel">
+                        <h3>Total Scanned</h3>
+                        <p class="metric-value" id="mTotal">0</p>
+                    </div>
+                </div>
+
+                <!-- Threat Details -->
+                <div class="threat-details glass-panel">
+                    <div class="section-header">
+                        <h2>Threat Analysis Log</h2>
+                        <div class="filter-controls">
+                            <select id="filterSelect">
+                                <option value="ALL">All Files</option>
+                                <option value="HIGH_RISK">High Risk Only</option>
+                                <option value="SUSPICIOUS">Suspicious Only</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="log-container" id="logContainer">
+                        <!-- File Cards Injected Here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
